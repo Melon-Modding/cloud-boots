@@ -77,12 +77,11 @@ public class Cloud {
 		Block blockAtFlooredPlayerPos = world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ);
 
 		//Checks if player is sneaking while on cloud
-		if(player.isSneaking() &&
-			blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage1 ||
-			blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage2 ||
-			blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage3 ||
-			blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage4 ||
-			blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage5 ){
+		if( player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage1 ||
+			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage2 ||
+			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage3 ||
+			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage4 ||
+			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage5 ){
 
 			for(int i = trailLength; i > 0; i--){
 				//Checks for null spots in clouds hashmap
