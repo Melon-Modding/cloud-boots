@@ -21,6 +21,14 @@ public class Cloud {
 
 	public static HashMap<Integer, Cloud> clouds = new HashMap<>();
 
+	public static void removeCloud(World world){
+		for(int i = 5; i > 0; i--){
+			if(clouds.get(i) == null){continue;}
+			world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
+		}
+		clouds.clear();
+	}
+
 	public static void placeCloud(World world, EntityPlayer player) {
 
 		//Get the players feet position
