@@ -71,7 +71,7 @@ public class Cloud {
 				//Checks to see which cloud player is standing on
 				if(clouds.get(i).x == flooredPlayerPosX && clouds.get(i).y == flooredPlayerPosY && clouds.get(i).z == flooredPlayerPosZ){
 					//Checks to see if the block below is air
-					if(world.getBlock(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z) == null) {
+					if(world.getBlock(clouds.get(i).x, clouds.get(i).y-1, clouds.get(i).z) == null) {
 						//deletes cloud player is standing on and replaces it with new one, one block lower
 						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
 						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
@@ -80,6 +80,8 @@ public class Cloud {
 						player.setPos(playerPosX, playerPosY + 0.97, playerPosZ);
 						break;
 					}
+					world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
+					clouds.remove(i);
 				}
 			}
 		}
