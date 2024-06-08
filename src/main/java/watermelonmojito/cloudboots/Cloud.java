@@ -35,6 +35,7 @@ public class Cloud {
 
 
 			//Is the block below the next player pos air. If statements are to correct for funky coordinate rounding imprecision
+			//If x or z is negative +1, if positive do nothing, leave it the same as nextPlayerPos
 			double blockBelowPosX = Math.floor(nextPlayerPosX);
 			double blockBelowPosY = Math.floor(nextPlayerPosY);
 			double blockBelowPosZ = Math.floor(nextPlayerPosZ);
@@ -46,18 +47,11 @@ public class Cloud {
 			}
 			//+x -z
 			else if (playerPosX > 0 && playerPosZ < 0) {
-				blockBelowPosX = Math.floor(nextPlayerPosX);
 				blockBelowPosZ = Math.floor(nextPlayerPosZ + 1);
 			}
 			//-x +z
 			else if (playerPosX < 0 && playerPosZ > 0) {
 				blockBelowPosX = Math.floor(nextPlayerPosX + 1);
-				blockBelowPosZ = Math.floor(nextPlayerPosZ);
-			}
-			//+x +z
-			else if (playerPosX > 0 && playerPosZ > 0) {
-				blockBelowPosX = Math.floor(nextPlayerPosX);
-				blockBelowPosZ = Math.floor(nextPlayerPosZ);
 			}
 
 			//to resolve issues with negative positions
