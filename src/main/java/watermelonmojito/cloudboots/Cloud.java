@@ -107,6 +107,10 @@ public class Cloud {
 		//replacing air with cloud
 		if (world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) == null && playerPosY - flooredPlayerPosY > 1.58) {
    			world.setBlockWithNotify((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ, CloudBoots.config.getInt("cloud_block_stage_1"));
+			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, 0.2, 0, 0.2, 10);
+			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, -0.2, 0, -0.2, 10);
+			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, -0.2, 0, 0.2, 10);
+			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, 0.2, 0, -0.2, 10);
 			Cloud tempCloud = new Cloud((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ);
 
 				for(int i = trailLength; i > 0; i--){
