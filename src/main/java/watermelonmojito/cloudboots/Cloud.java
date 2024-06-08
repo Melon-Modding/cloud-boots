@@ -65,22 +65,27 @@ public class Cloud {
 
 		//Checks if player is sneaking while on cloud
 		if(player.isSneaking() && world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) == Block.blockSnow){
-			for(int j = 5; j > 0; j--){
+			for(int i = 5; i > 0; i--){
 				//Checks for null spots in clouds hashmap
-				if(clouds.get(j) == null){continue;}
+				if(clouds.get(i) == null){continue;}
 				//Checks to see which cloud player is standing on
-				if(clouds.get(j).x == flooredPlayerPosX && clouds.get(j).y == flooredPlayerPosY && clouds.get(j).z == flooredPlayerPosZ){
-					world.setBlockWithNotify(clouds.get(j).x, clouds.get(j).y, clouds.get(j).z, 0);
-					Cloud crouchCloud = new Cloud(clouds.get(j).x, clouds.get(j).y - 1, clouds.get(j).z);
-					clouds.put(j, crouchCloud);
-					world.setBlockWithNotify(clouds.get(j).x, clouds.get(j).y, clouds.get(j).z, 740);
-					break;
+				if(clouds.get(i).x == flooredPlayerPosX && clouds.get(i).y == flooredPlayerPosY && clouds.get(i).z == flooredPlayerPosZ){
+					//Checks to see if the block below is air
+					if(world.getBlock(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z) == null) {
+						//deletes cloud player is standing on and replaces it with new one, one block lower
+						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
+						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
+						clouds.put(i, crouchCloud);
+						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 740);
+						player.setPos(playerPosX, playerPosY + 0.97, playerPosZ);
+						break;
+					}
 				}
 			}
 		}
 
 		//replacing air with cloud
-		if (world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) == null) {
+		if (world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) == null && playerPosY - flooredPlayerPosY > 1.58) {
 			world.setBlockWithNotify((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ, 740);
 			Cloud tempCloud = new Cloud((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ);
 
@@ -96,10 +101,10 @@ public class Cloud {
 			clouds.put(1, tempCloud);
 		}
 		//Checks if player is not on a cloud, if they aren't... then removes all clouds from world and hashmap
-		if (world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) != Block.blockSnow) {
+		if (world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) != Block.blockSnow && world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ) != null) {
 			for(int i = 5; i > 0; i--){
 				if(clouds.get(i) == null){continue;}
-				world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
+					world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
 			}
 			clouds.clear();
 		}
