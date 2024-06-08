@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "cloudboots",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This mod aims to help new BTA modders.",
+  "name": "Cloud Boots",
+  "description": "Adds a new building utility movement item, cloud boots!",
   "authors": [
-    "Turnip Labs"
+    "WatermelonMojito"
   ],
   "contact": {
     "homepage": "",
@@ -19,24 +19,24 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-			"turniplabs.examplemod.ExampleMod"
+			"watermelonmojito.cloudboots.CloudBoots"
     ],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"watermelonmojito.cloudboots.CloudBoots"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"watermelonmojito.cloudboots.CloudBoots"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+			"watermelonmojito.cloudboots.CloudBoots"
 		]
 	},
   "mixins": [
-      "examplemod.mixins.json"
+		"cloudboots.mixins.json"
   ],
 
   "depends": {
-		"minecraft": "~7.1",
+		"minecraft": "~7.2-beta",
     "fabricloader": ">=0.15.5"
   },
   "suggests": {
