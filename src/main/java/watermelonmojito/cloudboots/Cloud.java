@@ -14,8 +14,9 @@ public class Cloud {
 	public static void placeCloud(World world, EntityPlayer player) {
 
 		//Get the players feet position
-
-		Vec3d playerPos = Vec3d.createVector(player.getPosition(1).xCoord, player.getPosition(1).yCoord - 1, player.getPosition(1).zCoord);
+		double playerPosX = player.getPosition(1).xCoord;
+		double playerPosY = player.getPosition(1).yCoord - 1;
+		double playerPosZ = player.getPosition(1).zCoord;
 
 		//Find the difference between the player's position and the last position
 		double movementX = player.xo - player.x;
@@ -25,29 +26,34 @@ public class Cloud {
 		if (movementX < -0 || movementX > 0 || movementZ < -0 || movementZ > 0) {
 
 			//Project players direction forward to the next square
-			Vec3d nextPlayerPos = playerPos;
+			double nextPlayerPosX = playerPosX;
+			double nextPlayerPosY = playerPosY;
+			double nextPlayerPosZ = playerPosZ;
 
 			//keep adding the movement to the players location till the next block is found
-			while ((MathHelper.floor_double(playerPos.xCoord) == MathHelper.floor_double(nextPlayerPos.xCoord)) &&
-				(MathHelper.floor_double(playerPos.zCoord) == MathHelper.floor_double(nextPlayerPos.zCoord))) {
+			while ((MathHelper.floor_double(playerPosX) == MathHelper.floor_double(nextPlayerPosX)) &&
+				   (MathHelper.floor_double(playerPosZ) == MathHelper.floor_double(nextPlayerPosZ))) {
 
-				nextPlayerPos = Vec3d.createVector(nextPlayerPos.xCoord - movementX, nextPlayerPos.yCoord, nextPlayerPos.zCoord - movementZ);
+				nextPlayerPosX = nextPlayerPosX - movementX;
+				nextPlayerPosZ = nextPlayerPosZ - movementZ;
 			}
 
 
 			//Is the block below the next player pos air, if so fill it in with DIAMOND
-			Vec3d blockBelowPos = roundVec3d(nextPlayerPos);
+			double blockBelowPosX = Math.floor(nextPlayerPosX);
+			double blockBelowPosY = Math.floor(nextPlayerPosY);
+			double blockBelowPosZ = Math.floor(nextPlayerPosZ);
 
 			//to resolve issues with negative positions
-			if (blockBelowPos.zCoord < 0) {
-				blockBelowPos.zCoord = blockBelowPos.zCoord - 1;
+			if (blockBelowPosZ < 0) {
+				blockBelowPosZ = blockBelowPosZ - 1;
 			}
-			if (blockBelowPos.xCoord < 0) {
-				blockBelowPos.xCoord = blockBelowPos.xCoord - 1;
+			if (blockBelowPosX < 0) {
+				blockBelowPosX = blockBelowPosX - 1;
 			}
-			blockBelowPos.yCoord = blockBelowPos.yCoord - 1;
-			if (world.getBlock((int) blockBelowPos.xCoord, (int) blockBelowPos.yCoord, (int) blockBelowPos.zCoord) == null) {
-				world.setBlockWithNotify((int) blockBelowPos.xCoord, (int) blockBelowPos.yCoord, (int) blockBelowPos.zCoord, 740);
+			blockBelowPosY = blockBelowPosY - 1;
+			if (world.getBlock((int) blockBelowPosX, (int) blockBelowPosY, (int) blockBelowPosZ) == null) {
+				world.setBlockWithNotify((int) blockBelowPosX, (int) blockBelowPosY, (int) blockBelowPosZ, 740);
 			}
 		}
     }
