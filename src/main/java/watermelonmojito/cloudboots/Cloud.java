@@ -56,14 +56,15 @@ public class Cloud {
 			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage4 ||
 			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage5 ){
 
+			//if they are, loop through the clouds hashmap iterating backwards from 5 to 1 (trailLength is for testing)
 			for(int i = trailLength; i > 0; i--){
 				//Checks for null spots in clouds hashmap
 				if(clouds.get(i) == null){continue;}
 				//Checks to see which cloud player is standing on
 				if(clouds.get(i).x == flooredPlayerFeetX && clouds.get(i).y == flooredPlayerFeetY && clouds.get(i).z == flooredPlayerFeetZ){
-					//Checks to see if the block below is air
+					//Checks to see if the block below the cloud is air
 					if(world.getBlock(clouds.get(i).x, clouds.get(i).y-1, clouds.get(i).z) == null) {
-						//deletes cloud player is standing on and replaces it with new one, one block lower
+						//if so, deletes cloud player is standing on and replaces it with new one, same stage, one block lower
 						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
 						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
 						clouds.put(i, crouchCloud);
@@ -71,6 +72,7 @@ public class Cloud {
 						player.setPos(playerFeetX, playerFeetY + 0.97, playerFeetZ);
 						break;
 					}
+					//if not, remove the cloud player is standing on from world and hashmap
 					world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
 					clouds.remove(i);
 				}
