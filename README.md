@@ -1,37 +1,16 @@
-# Example Mod
+# Cloud Boots!
 
-Template for making Babric mods for BTA!
+Adds Cloud Boots to the Game!
 
-**Note: *DO NOT fork this repository unless you want to contribute!***
+* Cloud Boots give you the ability to walk in the air on a trail of clouds. Extremely useful for building large structures later on in your world. To counteract and balance the Cloud Boots, a couple of downsides have been implemented:
 
-## Prerequisites
-- JDK for Java 17 ([Eclipse Temurin](https://adoptium.net/temurin/releases/) recommended)
-- [Intellij IDEA](https://www.jetbrains.com/idea/download/) (Scroll down for the free community edition, if using linux **DO NOT** use the flatpak distribution)
-- Minecraft Development plugin (Optional, but highly recommended)
+* Cloud Boots make you walk much slower, the same speed as soul sand. This eliminates them as a method of transport, and still keeps true to the heart of infrastructure and rail networks in BTA. 
 
-## Setup instructions
-   
+* The Boots provide little to no protection, only 10-20 points in fall. (It's up to the devs to balance out protection points, personally I don't mind any stance.)
 
-1. Click the `Use this template` button on this repo's page above (Will only appear if logged in). Choose `Create a new repository`, you will be redirected to a new page. Enter your repo's name and description, and hit `Create repository`.  
-   To get your project, open IntelliJ IDEA and click `Get from VCS`. Select `Repository URL` and enter your repo's url
+* While floating you are extremely vulnerable to projectiles, one hit and your clouds will disperse. This, combined with the previous downside, discourages the use of cloud boots in combat. Skeletons can easily shoot you down, and the slightest touch can evaporate your clouds.
 
-2. After the project has finished importing, close it and open it again.  
-   If that does not work, open the right sidebar with `Gradle` on it, open `Tasks` > `fabric` and run `ideaSyncTask`.
-
-3. Create a new run configuration by going in `Run > Edit Configurations`.  
-   Then click on the plus icon and select Gradle. In the `Tasks and Arguments` field enter `build`.  
-   Running it will build your finished jar files and put them in `build/libs/`.
-
-4. Lastly, open `File` > `Settings` and head to `Build, Execution, Development` > `Build Tools` > `Gradle`.  
-   Make sure `Build and run using` and `Run tests using` is set to `Gradle`.
-
-5. Done! Now, all that's left is to change every mention of `examplemod` and `turniplabs` to your own mod id and mod group, respectively. Happy modding!
-
-## Tips
-
-1. If you haven't already you should join the BTA modding discord! https://discord.gg/FTUNJhswBT
-2. You can set your username when launching the client run configuration by setting `--username <username>` in your program arguments.
-3. When launching the server run configuration you may want to remove the `nogui` program argument in order to see the regular server GUI.
-4. In Intellij you can double press shift or press ctrl+N to search class files, change the search from the default `Project Files` to `All Places` you can easily explore the classes for you dependencies and even BTA itself.
-5. In Intellij if ctrl+left click on a field or method you can quickly get information on when and where that field or method is assign or used.
-
+Credit to @thaboar for the cloud texture, 
+the boot texture came from the Cloud Boots mod from Tiviacz1337 
+(I just ripped it as a place holder, plan on making one myself later), 
+and the boots model is just a diamond boot placeholder model.
