@@ -118,7 +118,7 @@ public class Cloud {
 					if(clouds.get(i) == null){continue;}
 					//removes last cloud from hashmap and world
 					if(i == trailLength){world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0); clouds.remove(i); continue;}
-					//shifting over cloud to next key/index in hashmap (copy then remove)
+					//shifting over cloud to next key/index in hashmap while also incrementally replacing previous clouds with later stages
 					world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, CloudBoots.config.getInt("cloud_block_stage_" + (i+1)));
 					clouds.put(i+1, clouds.get(i));
 					clouds.remove(i);
