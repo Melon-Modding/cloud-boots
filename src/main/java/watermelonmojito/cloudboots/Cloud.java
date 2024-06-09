@@ -50,15 +50,15 @@ public class Cloud {
 		int intPlayerPosX = (int) flooredPlayerPosX;
 		int intPlayerPosY = (int) flooredPlayerPosY;
 		int intPlayerPosZ = (int) flooredPlayerPosZ;
-		Block blockAtFlooredPlayerPos = world.getBlock(intPlayerPosX, intPlayerPosY, intPlayerPosZ);
+		Block blockAtIntPlayerPos = world.getBlock(intPlayerPosX, intPlayerPosY, intPlayerPosZ);
 
 
 		//Checks if player is sneaking while on cloud
-		if( player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage1 ||
-			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage2 ||
-			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage3 ||
-			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage4 ||
-			player.isSneaking() && blockAtFlooredPlayerPos == CloudBoots.tileBlockCloudStage5 ){
+		if( player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage1 ||
+			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage2 ||
+			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage3 ||
+			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage4 ||
+			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage5 ){
 
 			for(int i = trailLength; i > 0; i--){
 				//Checks for null spots in clouds hashmap
@@ -82,7 +82,7 @@ public class Cloud {
 		}
 
 		//replacing air with cloud
-		if (blockAtFlooredPlayerPos == null && playerPosY - flooredPlayerPosY > 1.58) {
+		if (blockAtIntPlayerPos == null && playerPosY - flooredPlayerPosY > 1.58) {
    			world.setBlockWithNotify(intPlayerPosX, intPlayerPosY, intPlayerPosZ, CloudBoots.config.getInt("cloud_block_stage_1"));
 			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, 0.2, 0, 0.2, 10);
 			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, -0.2, 0, -0.2, 10);
@@ -105,12 +105,12 @@ public class Cloud {
 		}
 
 		//Checks if player is not on a cloud, if they aren't... then removes all clouds from world and hashmap
-		if (blockAtFlooredPlayerPos != CloudBoots.tileBlockCloudStage1 &&
-			blockAtFlooredPlayerPos != CloudBoots.tileBlockCloudStage2 &&
-			blockAtFlooredPlayerPos != CloudBoots.tileBlockCloudStage3 &&
-			blockAtFlooredPlayerPos != CloudBoots.tileBlockCloudStage4 &&
-			blockAtFlooredPlayerPos != CloudBoots.tileBlockCloudStage5 &&
-			blockAtFlooredPlayerPos != null){
+		if (blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage1 &&
+			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage2 &&
+			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage3 &&
+			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage4 &&
+			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage5 &&
+			blockAtIntPlayerPos != null){
 
 			for(int i = trailLength; i > 0; i--){
 				if(clouds.get(i) == null){continue;}
