@@ -34,37 +34,33 @@ public class Cloud {
 	public static void placeCloud(World world, EntityPlayer player) {
 
 		//Get the players feet position
-		double playerPosX = player.getPosition(0.5F).xCoord;
-		double playerPosY = player.getPosition(0.5F).yCoord - 1;
-		double playerPosZ = player.getPosition(0.5F).zCoord;
+		double playerFeetX = player.getPosition(0.5F).xCoord;
+		double playerFeetY = player.getPosition(0.5F).yCoord - 1;
+		double playerFeetZ = player.getPosition(0.5F).zCoord;
 
+		//Floor it
+		double flooredPlayerFeetX = Math.floor(playerFeetX);
+		double flooredPlayerFeetY = Math.floor(playerFeetY) - 1;
+		double flooredPlayerFeetZ = Math.floor(playerFeetZ);
 
-		//Is the block below the player pos air. If statements are to correct for funky coordinate rounding imprecision
-		//If x or z is negative +1, if positive do nothing, leave it the same as nextPlayerPos
-		double flooredPlayerPosX = Math.floor(playerPosX);
-		double flooredPlayerPosY = Math.floor(playerPosY);
-		double flooredPlayerPosZ = Math.floor(playerPosZ);
-
-		flooredPlayerPosY = flooredPlayerPosY - 1;
-
-		int intPlayerPosX = (int) flooredPlayerPosX;
-		int intPlayerPosY = (int) flooredPlayerPosY;
-		int intPlayerPosZ = (int) flooredPlayerPosZ;
-		Block blockAtIntPlayerPos = world.getBlock(intPlayerPosX, intPlayerPosY, intPlayerPosZ);
-
+		//Cast to int
+		int intPlayerFeetX = (int) flooredPlayerFeetX;
+		int intPlayerFeetY = (int) flooredPlayerFeetY;
+		int intPlayerFeetZ = (int) flooredPlayerFeetZ;
+		Block blockAtIntPlayerFeet = world.getBlock(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ);
 
 		//Checks if player is sneaking while on cloud
-		if( player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage1 ||
-			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage2 ||
-			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage3 ||
-			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage4 ||
-			player.isSneaking() && blockAtIntPlayerPos == CloudBoots.tileBlockCloudStage5 ){
+		if( player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage1 ||
+			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage2 ||
+			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage3 ||
+			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage4 ||
+			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage5 ){
 
 			for(int i = trailLength; i > 0; i--){
 				//Checks for null spots in clouds hashmap
 				if(clouds.get(i) == null){continue;}
 				//Checks to see which cloud player is standing on
-				if(clouds.get(i).x == flooredPlayerPosX && clouds.get(i).y == flooredPlayerPosY && clouds.get(i).z == flooredPlayerPosZ){
+				if(clouds.get(i).x == flooredPlayerFeetX && clouds.get(i).y == flooredPlayerFeetY && clouds.get(i).z == flooredPlayerFeetZ){
 					//Checks to see if the block below is air
 					if(world.getBlock(clouds.get(i).x, clouds.get(i).y-1, clouds.get(i).z) == null) {
 						//deletes cloud player is standing on and replaces it with new one, one block lower
@@ -72,7 +68,7 @@ public class Cloud {
 						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
 						clouds.put(i, crouchCloud);
 						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, CloudBoots.config.getInt("cloud_block_stage_" + i));
-						player.setPos(playerPosX, playerPosY + 0.97, playerPosZ);
+						player.setPos(playerFeetX, playerFeetY + 0.97, playerFeetZ);
 						break;
 					}
 					world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
@@ -82,13 +78,13 @@ public class Cloud {
 		}
 
 		//replacing air with cloud
-		if (blockAtIntPlayerPos == null && playerPosY - flooredPlayerPosY > 1.58) {
-   			world.setBlockWithNotify(intPlayerPosX, intPlayerPosY, intPlayerPosZ, CloudBoots.config.getInt("cloud_block_stage_1"));
-			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, 0.2, 0, 0.2, 10);
-			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, -0.2, 0, -0.2, 10);
-			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, -0.2, 0, 0.2, 10);
-			world.spawnParticle("explode", playerPosX, playerPosY-1, playerPosZ, 0.2, 0, -0.2, 10);
-			Cloud tempCloud = new Cloud(intPlayerPosX, intPlayerPosY, intPlayerPosZ);
+		if (blockAtIntPlayerFeet == null && playerFeetY - flooredPlayerFeetY > 1.58) {
+   			world.setBlockWithNotify(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ, CloudBoots.config.getInt("cloud_block_stage_1"));
+			world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, 0.2, 0, 0.2, 10);
+			world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, -0.2, 0, -0.2, 10);
+			world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, -0.2, 0, 0.2, 10);
+			world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, 0.2, 0, -0.2, 10);
+			Cloud tempCloud = new Cloud(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ);
 
 				for(int i = trailLength; i > 0; i--){
 					//Checks for null spots in clouds hashmap
@@ -105,12 +101,12 @@ public class Cloud {
 		}
 
 		//Checks if player is not on a cloud, if they aren't... then removes all clouds from world and hashmap
-		if (blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage1 &&
-			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage2 &&
-			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage3 &&
-			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage4 &&
-			blockAtIntPlayerPos != CloudBoots.tileBlockCloudStage5 &&
-			blockAtIntPlayerPos != null){
+		if (blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage1 &&
+			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage2 &&
+			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage3 &&
+			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage4 &&
+			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage5 &&
+			blockAtIntPlayerFeet != null){
 
 			for(int i = trailLength; i > 0; i--){
 				if(clouds.get(i) == null){continue;}
