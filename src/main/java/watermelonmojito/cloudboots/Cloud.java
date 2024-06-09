@@ -46,33 +46,7 @@ public class Cloud {
 		double flooredPlayerPosY = Math.floor(playerPosY);
 		double flooredPlayerPosZ = Math.floor(playerPosZ);
 
-		//-x -z
-		if(playerPosX < 0 && playerPosZ < 0) {
-			flooredPlayerPosX = Math.floor(playerPosX + 1);
-			flooredPlayerPosZ = Math.floor(playerPosZ + 1);
-		}
-
-		//+x -z
-		else if (playerPosX > 0 && playerPosZ < 0) {
-			flooredPlayerPosZ = Math.floor(playerPosZ + 1);
-		}
-
-		//-x +z
-		else if (playerPosX < 0 && playerPosZ > 0) {
-			flooredPlayerPosX = Math.floor(playerPosX + 1);
-		}
-
-		//to resolve issues with negative positions
-		if (flooredPlayerPosZ < 0) {
-			flooredPlayerPosZ = flooredPlayerPosZ - 1;
-		}
-
-		if (flooredPlayerPosX < 0) {
-			flooredPlayerPosX = flooredPlayerPosX - 1;
-		}
-
 		flooredPlayerPosY = flooredPlayerPosY - 1;
-
 
 		Block blockAtFlooredPlayerPos = world.getBlock((int) flooredPlayerPosX, (int) flooredPlayerPosY, (int) flooredPlayerPosZ);
 
@@ -94,7 +68,7 @@ public class Cloud {
 						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
 						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
 						clouds.put(i, crouchCloud);
-						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, CloudBoots.config.getInt("cloud_block_stage_1"));
+						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, CloudBoots.config.getInt("cloud_block_stage_" + i));
 						player.setPos(playerPosX, playerPosY + 0.97, playerPosZ);
 						break;
 					}
