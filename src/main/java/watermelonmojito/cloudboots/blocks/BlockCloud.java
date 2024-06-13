@@ -1,4 +1,4 @@
-package watermelonmojito.cloudboots.cloudblocks;
+package watermelonmojito.cloudboots.blocks;
 import net.minecraft.core.block.BlockTransparent;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.entity.Entity;
@@ -6,9 +6,9 @@ import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
 
-public class CloudBlock extends BlockTransparent {
+public class BlockCloud extends BlockTransparent {
 
-	public CloudBlock(String key, int id) {
+	public BlockCloud(String key, int id) {
 		super(key, id, Material.air);
 	}
 

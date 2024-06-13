@@ -9,9 +9,9 @@ import java.util.HashMap;
 
 public class Cloud {
 
-	private int x;
-	private int y;
-	private int z;
+	private final int x;
+	private final int y;
+	private final int z;
 	private static int sneakCooldown = 0;
 
 	public Cloud(int x, int y, int z){
@@ -20,10 +20,27 @@ public class Cloud {
 		this.z = z;
 	}
 
+	//dev tool, doesn't really work just for testing
 	private static final int trailLength = 5;
 
+
+
+	//hashmap for all active clouds
 	public static HashMap<Integer, Cloud> clouds = new HashMap<>();
 
+
+
+	//custom particles for clouds
+	private static void cloudParticle(World world, double x, double y, double z){
+		world.spawnParticle("explode", x, y-1, z, 0.2, 0, 0.2, 10);
+		world.spawnParticle("explode", x, y-1, z, -0.2, 0, -0.2, 10);
+		world.spawnParticle("explode", x, y-1, z, -0.2, 0, 0.2, 10);
+		world.spawnParticle("explode", x, y-1, z, 0.2, 0, -0.2, 10);
+	}
+
+
+
+	//removes all clouds from hashmap and world
 	public static void removeCloud(World world){
 		for(int i = trailLength; i > 0; i--){
 			if(clouds.get(i) == null){continue;}
@@ -32,6 +49,9 @@ public class Cloud {
 		clouds.clear();
 	}
 
+
+
+	//ran on tick for most cloud related stuff
 	public static void placeCloud(World world, EntityPlayer player) {
 
 		//Get the players feet position
@@ -76,6 +96,7 @@ public class Cloud {
 						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
 						clouds.put(i, crouchCloud);
 						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, CloudBoots.config.getInt("cloud_block_stage_" + i));
+						cloudParticle(world, playerFeetX, playerFeetY, playerFeetZ);
 						player.setPos(playerFeetX, playerFeetY + 0.97, playerFeetZ);
 						break;
 					}
@@ -89,10 +110,7 @@ public class Cloud {
 			//replacing air with cloud
 			if (blockAtIntPlayerFeet == null && playerFeetY - flooredPlayerFeetY > 1.58) {
 				world.setBlockWithNotify(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ, CloudBoots.config.getInt("cloud_block_stage_1"));
-				world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, 0.2, 0, 0.2, 10);
-				world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, -0.2, 0, -0.2, 10);
-				world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, -0.2, 0, 0.2, 10);
-				world.spawnParticle("explode", playerFeetX, playerFeetY-1, playerFeetZ, 0.2, 0, -0.2, 10);
+				cloudParticle(world, playerFeetX, playerFeetY, playerFeetZ);
 				Cloud tempCloud = new Cloud(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ);
 
 				for(int i = trailLength; i > 0; i--){
