@@ -1,6 +1,5 @@
 package watermelonmojito.cloudboots;
 
-import net.minecraft.core.block.Block;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.world.World;
 
@@ -41,7 +40,7 @@ public class Cloud {
 
 
 	//removes all clouds from hashmap and world
-	public static void removeCloud(World world){
+	public static void removeClouds(World world){
 		for(int i = trailLength; i > 0; i--){
 			if(clouds.get(i) == null){continue;}
 			world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
@@ -52,34 +51,18 @@ public class Cloud {
 
 
 	//ran on tick for most cloud related stuff
-	public static void placeCloud(World world, EntityPlayer player) {
-
-		//Get the players feet position
-		double playerFeetX = player.getPosition(0.5F).xCoord;
-		double playerFeetY = player.getPosition(0.5F).yCoord - 1;
-		double playerFeetZ = player.getPosition(0.5F).zCoord;
-
-		//Floor it
-		double flooredPlayerFeetX = Math.floor(playerFeetX);
-		double flooredPlayerFeetY = Math.floor(playerFeetY) - 1;
-		double flooredPlayerFeetZ = Math.floor(playerFeetZ);
-
-		//Cast to int
-		int intPlayerFeetX = (int) flooredPlayerFeetX;
-		int intPlayerFeetY = (int) flooredPlayerFeetY;
-		int intPlayerFeetZ = (int) flooredPlayerFeetZ;
-		Block blockAtIntPlayerFeet = world.getBlock(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ);
+	public static void tickCloud(World world, EntityPlayer player) {
 
 		//
 		sneakCooldown++;
 
 		//Checks if player is sneaking while on cloud or air
-		if( player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage1 && sneakCooldown >= 5 ||
-			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage2 && sneakCooldown >= 5 ||
-			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage3 && sneakCooldown >= 5 ||
-			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage4 && sneakCooldown >= 5 ||
-			player.isSneaking() && blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage5 && sneakCooldown >= 5 ||
-			player.isSneaking() && blockAtIntPlayerFeet == null && sneakCooldown >= 5 ){
+		if( player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage1 && sneakCooldown >= 5 ||
+			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage2 && sneakCooldown >= 5 ||
+			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage3 && sneakCooldown >= 5 ||
+			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage4 && sneakCooldown >= 5 ||
+			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage5 && sneakCooldown >= 5 ||
+			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == null && sneakCooldown >= 5 ){
 
 			//reset cooldown
 			sneakCooldown = 0;
@@ -88,7 +71,7 @@ public class Cloud {
 				//Checks for null spots in clouds hashmap
 				if(clouds.get(i) == null){continue;}
 				//Checks to see which cloud player is standing on
-				if(clouds.get(i).x == flooredPlayerFeetX && clouds.get(i).y == flooredPlayerFeetY && clouds.get(i).z == flooredPlayerFeetZ){
+				if(clouds.get(i).x == PlayerInfo.flooredPlayerFeetX && clouds.get(i).y == PlayerInfo.flooredPlayerFeetY && clouds.get(i).z == PlayerInfo.flooredPlayerFeetZ){
 					//Checks to see if the block below the cloud is air
 					if(world.getBlock(clouds.get(i).x, clouds.get(i).y-1, clouds.get(i).z) == null) {
 						//if so, deletes cloud player is standing on and replaces it with new one, same stage, one block lower
@@ -96,8 +79,8 @@ public class Cloud {
 						Cloud crouchCloud = new Cloud(clouds.get(i).x, clouds.get(i).y - 1, clouds.get(i).z);
 						clouds.put(i, crouchCloud);
 						world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, CloudBoots.config.getInt("cloud_block_stage_" + i));
-						cloudParticle(world, playerFeetX, playerFeetY, playerFeetZ);
-						player.setPos(playerFeetX, playerFeetY + 0.97, playerFeetZ);
+						cloudParticle(world, PlayerInfo.playerFeetX, PlayerInfo.playerFeetY, PlayerInfo.playerFeetZ);
+						player.setPos(PlayerInfo.playerFeetX, PlayerInfo.playerFeetY + 0.97, PlayerInfo.playerFeetZ);
 						break;
 					}
 					//if not, remove the cloud player is standing on from world and hashmap
@@ -108,10 +91,10 @@ public class Cloud {
 		}
 		else{
 			//replacing air with cloud
-			if (blockAtIntPlayerFeet == null && playerFeetY - flooredPlayerFeetY > 1.58) {
-				world.setBlockWithNotify(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ, CloudBoots.config.getInt("cloud_block_stage_1"));
-				cloudParticle(world, playerFeetX, playerFeetY, playerFeetZ);
-				Cloud tempCloud = new Cloud(intPlayerFeetX, intPlayerFeetY, intPlayerFeetZ);
+			if (PlayerInfo.blockAtIntPlayerFeet == null && PlayerInfo.playerFeetY - PlayerInfo.flooredPlayerFeetY > 1.58) {
+				world.setBlockWithNotify(PlayerInfo.intPlayerFeetX, PlayerInfo.intPlayerFeetY, PlayerInfo.intPlayerFeetZ, CloudBoots.config.getInt("cloud_block_stage_1"));
+				cloudParticle(world, PlayerInfo.playerFeetX, PlayerInfo.playerFeetY, PlayerInfo.playerFeetZ);
+				Cloud tempCloud = new Cloud(PlayerInfo.intPlayerFeetX, PlayerInfo.intPlayerFeetY, PlayerInfo.intPlayerFeetZ);
 
 				for(int i = trailLength; i > 0; i--){
 					//Checks for null spots in clouds hashmap
@@ -129,12 +112,12 @@ public class Cloud {
 		}
 
 		//Checks if player is not on a cloud, if they aren't... then removes all clouds from world and hashmap
-		if (blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage1 &&
-			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage2 &&
-			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage3 &&
-			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage4 &&
-			blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage5 &&
-			blockAtIntPlayerFeet != null){
+		if (PlayerInfo.blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage1 &&
+			PlayerInfo.blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage2 &&
+			PlayerInfo.blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage3 &&
+			PlayerInfo.blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage4 &&
+			PlayerInfo.blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage5 &&
+			PlayerInfo.blockAtIntPlayerFeet != null){
 
 			for(int i = trailLength; i > 0; i--){
 				if(clouds.get(i) == null){continue;}
