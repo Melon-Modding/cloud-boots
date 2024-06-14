@@ -78,6 +78,7 @@ public class Tether {
 		}
 
 		if(wasOutOfTether && Cloud.inTether){
+			Cloud.refresh(world);
 		}
 
 

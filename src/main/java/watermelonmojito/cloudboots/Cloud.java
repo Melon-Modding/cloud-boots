@@ -52,13 +52,18 @@ public class Cloud {
 		clouds.clear();
 	}
 
-	//removes all clouds except 5 from hashmap and world
-	public static void removeTrail(World world){
+	//sets all clouds stages equal to their value in the hashmap. Does not physically move anything in the world
+	public static void refresh(World world){
+		HashMap<Integer, Cloud> refreshClouds = new HashMap<>();
 		for(int i = trailLength; i > 0; i--){
 			if(clouds.get(i) == null){continue;}
-			world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0);
+			String cloudKey = world.getBlock(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z).getKey();
+			int cloudStage = Character.getNumericValue(cloudKey.charAt(cloudKey.length() - 1));
+			refreshClouds.put(cloudStage, clouds.get(i));
 		}
-		clouds.clear();
+		for(int i = trailLength; i > 0; i--){
+			clouds.replace(i, refreshClouds.get(i));
+		}
 	}
 
 
