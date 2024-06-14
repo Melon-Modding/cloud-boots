@@ -14,10 +14,12 @@ import turniplabs.halplibe.util.ConfigHandler;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.RecipeEntrypoint;
 import watermelonmojito.cloudboots.blocks.BlockCloud;
+import watermelonmojito.cloudboots.blocks.BlockTether;
 
 import java.util.Properties;
 
 import static net.minecraft.core.sound.BlockSounds.CLOTH;
+import static net.minecraft.core.sound.BlockSounds.STONE;
 
 
 public class CloudBoots implements ModInitializer, GameStartEntrypoint, RecipeEntrypoint {
@@ -29,6 +31,7 @@ public class CloudBoots implements ModInitializer, GameStartEntrypoint, RecipeEn
 	static {
 		Properties prop = new Properties();
 		prop.setProperty("cloudboots", "32200");
+		prop.setProperty("tether", "16300");
 		prop.setProperty("cloud_block_stage_1", "16301");
 		prop.setProperty("cloud_block_stage_2", "16302");
 		prop.setProperty("cloud_block_stage_3", "16303");
@@ -44,6 +47,7 @@ public class CloudBoots implements ModInitializer, GameStartEntrypoint, RecipeEn
 	public static Block tileBlockCloudStage3;
 	public static Block tileBlockCloudStage4;
 	public static Block tileBlockCloudStage5;
+	public static Block tileTether;
 
 	private void initializeArmorMaterials() {
 		armorMaterialCloudBoots = ArmorHelper.createArmorMaterial
@@ -60,6 +64,7 @@ public class CloudBoots implements ModInitializer, GameStartEntrypoint, RecipeEn
 		tileBlockCloudStage3 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud3").setTopBottomTextures("cloudboots:block/cloud3").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_3", config.getInt("cloud_block_stage_3")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
 		tileBlockCloudStage4 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud4").setTopBottomTextures("cloudboots:block/cloud4").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_4", config.getInt("cloud_block_stage_4")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
 		tileBlockCloudStage5 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud5").setTopBottomTextures("cloudboots:block/cloud5").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_5", config.getInt("cloud_block_stage_5")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
+		tileTether = new BlockBuilder(MOD_ID).setSideTextures("minecraft:block/obsidian").setTopBottomTextures("minecraft:block/obsidian").setBlockSound(STONE).build(new BlockTether("tether", config.getInt("tether")));
 	}
 
     @Override
