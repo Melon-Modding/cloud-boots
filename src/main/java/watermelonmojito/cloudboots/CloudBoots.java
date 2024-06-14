@@ -55,11 +55,11 @@ public class CloudBoots implements ModInitializer, GameStartEntrypoint, RecipeEn
 	}
 
 	private void initializeBlocks(){
-		tileBlockCloudStage1 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud1").setTopBottomTextures("cloudboots:block/cloud1").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_1", config.getInt("cloud_block_stage_1")));
-		tileBlockCloudStage2 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud2").setTopBottomTextures("cloudboots:block/cloud2").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_2", config.getInt("cloud_block_stage_2")));
-		tileBlockCloudStage3 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud3").setTopBottomTextures("cloudboots:block/cloud3").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_3", config.getInt("cloud_block_stage_3")));
-		tileBlockCloudStage4 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud4").setTopBottomTextures("cloudboots:block/cloud4").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_4", config.getInt("cloud_block_stage_4")));
-		tileBlockCloudStage5 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud5").setTopBottomTextures("cloudboots:block/cloud5").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_5", config.getInt("cloud_block_stage_5")));
+		tileBlockCloudStage1 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud1").setTopBottomTextures("cloudboots:block/cloud1").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_1", config.getInt("cloud_block_stage_1")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
+		tileBlockCloudStage2 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud2").setTopBottomTextures("cloudboots:block/cloud2").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_2", config.getInt("cloud_block_stage_2")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
+		tileBlockCloudStage3 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud3").setTopBottomTextures("cloudboots:block/cloud3").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_3", config.getInt("cloud_block_stage_3")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
+		tileBlockCloudStage4 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud4").setTopBottomTextures("cloudboots:block/cloud4").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_4", config.getInt("cloud_block_stage_4")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
+		tileBlockCloudStage5 = new BlockBuilder(MOD_ID).setSideTextures("cloudboots:block/cloud5").setTopBottomTextures("cloudboots:block/cloud5").setBlockSound(CLOTH).build(new BlockCloud("cloud_block_stage_5", config.getInt("cloud_block_stage_5")).withSetUnbreakable().withBlastResistance(6000000.0f).withDisabledStats());
 	}
 
     @Override

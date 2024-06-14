@@ -28,4 +28,5 @@ public class BlockCloud extends BlockTransparent {
 	public int getRenderBlockPass() {
 		return 1;
 	}
+
 }
