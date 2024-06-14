@@ -78,7 +78,6 @@ public class Tether {
 		}
 
 		if(wasOutOfTether && Cloud.inTether){
-			Cloud.removeTrail(world);
 		}
 
 
