@@ -154,8 +154,10 @@ public class Cloud {
 		inTether = false;
 		sneakCooldown++;
 
+		//TODO Known issue: Unrelated to Sneaking, Sometimes a seemingly random cloud will just slip out of the hashmap and stay in the world
 
 		//TODO Known issue: sneaking when outside tether does not replace the cloud correctly, something is wrong/offset with the stage and hashmap key
+
 		//Checks if player is sneaking while on cloud or air
 		/*if( player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage1 && sneakCooldown >= 5 ||
 			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage2 && sneakCooldown >= 5 ||
