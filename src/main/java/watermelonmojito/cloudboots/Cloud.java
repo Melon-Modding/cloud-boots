@@ -2,7 +2,6 @@ package watermelonmojito.cloudboots;
 
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.world.World;
-import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.HashMap;
 
@@ -41,7 +40,11 @@ public class Cloud {
 		world.spawnParticle("explode", x, y-1, z, 0.2, 0, -0.2, 10);
 	}
 
-
+	//Gets a cloud's stage from its coordinates
+	public static int getCloudStage(World world, Cloud cloud){
+		String cloudKey = world.getBlock(cloud.x, cloud.y, cloud.z).getKey();
+		return Character.getNumericValue(cloudKey.charAt(cloudKey.length() - 1));
+	}
 
 	//removes all clouds from hashmap and world
 	public static void removeClouds(World world){
@@ -57,8 +60,18 @@ public class Cloud {
 		HashMap<Integer, Cloud> refreshClouds = new HashMap<>();
 		for(int i = trailLength; i > 0; i--){
 			if(clouds.get(i) == null || world.getBlock(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z) == null){continue;}
-			String cloudKey = world.getBlock(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z).getKey();
-			int cloudStage = Character.getNumericValue(cloudKey.charAt(cloudKey.length() - 1));
+			int cloudStage = getCloudStage(world, clouds.get(i));
+			for(int j = trailLength; j > 0; j--){
+				if(refreshClouds.get(j) == null){continue;}
+				int refreshCloudStage = getCloudStage(world, refreshClouds.get(j));
+				if (refreshCloudStage == cloudStage) {
+					for (int k = 1; k <= trailLength; k++) {
+						if (refreshClouds.get(k) == null) {
+							refreshClouds.put(k, clouds.get(i));
+						}
+					}
+				}
+			}
 			refreshClouds.put(cloudStage, clouds.get(i));
 		}
 		for(int i = trailLength; i > 0; i--){
@@ -154,8 +167,6 @@ public class Cloud {
 		inTether = false;
 		sneakCooldown++;
 
-		//TODO Known issue: Unrelated to Sneaking, Sometimes a seemingly random cloud will just slip out of the hashmap and stay in the world
-
 		//TODO Known issue: sneaking when outside tether does not replace the cloud correctly, something is wrong/offset with the stage and hashmap key
 
 		//Checks if player is sneaking while on cloud or air
@@ -191,6 +202,8 @@ public class Cloud {
 				}
 			}
 		}*/
+
+		//TODO Known issue: When Exiting a Tether, if stageCounter is < 5, some clouds will get left in the world.
 
 		//replacing air with cloud
 		if(PlayerInfo.blockAtIntPlayerFeet == null && PlayerInfo.playerFeetY - PlayerInfo.flooredPlayerFeetY > 1.58){
