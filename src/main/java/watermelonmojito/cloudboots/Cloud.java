@@ -154,8 +154,10 @@ public class Cloud {
 		inTether = false;
 		sneakCooldown++;
 
+
+		//TODO Known issue: sneaking when outside tether does not replace the cloud correctly, something is wrong/offset with the stage and hashmap key
 		//Checks if player is sneaking while on cloud or air
-		if( player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage1 && sneakCooldown >= 5 ||
+		/*if( player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage1 && sneakCooldown >= 5 ||
 			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage2 && sneakCooldown >= 5 ||
 			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage3 && sneakCooldown >= 5 ||
 			player.isSneaking() && PlayerInfo.blockAtIntPlayerFeet == CloudBoots.tileBlockCloudStage4 && sneakCooldown >= 5 ||
@@ -186,24 +188,24 @@ public class Cloud {
 					clouds.remove(i);
 				}
 			}
-		}
-		else{
-			//replacing air with cloud
-			if(PlayerInfo.blockAtIntPlayerFeet == null && PlayerInfo.playerFeetY - PlayerInfo.flooredPlayerFeetY > 1.58){
-				if(stageCounter <= 5) {
-					world.setBlockWithNotify(PlayerInfo.intPlayerFeetX, PlayerInfo.intPlayerFeetY, PlayerInfo.intPlayerFeetZ, CloudBoots.config.getInt("cloud_block_stage_" + stageCounter));
-					cloudParticle(world, PlayerInfo.playerFeetX, PlayerInfo.playerFeetY, PlayerInfo.playerFeetZ);
-					for(int i = trailLength; i > 0; i--){
-						if(clouds.get(i) == null){continue;}
-						if(i == trailLength){world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0); clouds.remove(i); continue;}
-						clouds.put(i+1, clouds.get(i));
-						clouds.remove(i);
-					}
-					clouds.put(1, new Cloud(PlayerInfo.intPlayerFeetX, PlayerInfo.intPlayerFeetY, PlayerInfo.intPlayerFeetZ));
-					stageCounter++;
+		}*/
+
+		//replacing air with cloud
+		if(PlayerInfo.blockAtIntPlayerFeet == null && PlayerInfo.playerFeetY - PlayerInfo.flooredPlayerFeetY > 1.58){
+			if(stageCounter <= 5) {
+				world.setBlockWithNotify(PlayerInfo.intPlayerFeetX, PlayerInfo.intPlayerFeetY, PlayerInfo.intPlayerFeetZ, CloudBoots.config.getInt("cloud_block_stage_" + stageCounter));
+				cloudParticle(world, PlayerInfo.playerFeetX, PlayerInfo.playerFeetY, PlayerInfo.playerFeetZ);
+				for(int i = trailLength; i > 0; i--){
+					if(clouds.get(i) == null){continue;}
+					if(i == trailLength){world.setBlockWithNotify(clouds.get(i).x, clouds.get(i).y, clouds.get(i).z, 0); clouds.remove(i); continue;}
+					clouds.put(i+1, clouds.get(i));
+					clouds.remove(i);
 				}
+				clouds.put(1, new Cloud(PlayerInfo.intPlayerFeetX, PlayerInfo.intPlayerFeetY, PlayerInfo.intPlayerFeetZ));
+				stageCounter++;
 			}
 		}
+
 
 		//Checks if player is not on a cloud, if they aren't... then removes all clouds from world and hashmap
 		if (PlayerInfo.blockAtIntPlayerFeet != CloudBoots.tileBlockCloudStage1 &&
